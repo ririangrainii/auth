@@ -2,6 +2,7 @@
 use App\Http\Controllers\KategoriController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -13,11 +14,21 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [TransaksiController::class, 'index'])->name('landingpage');
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+// Route::get('/sdasdw', function () {
+//     //manggil template landing
+//     return view('landingpage.cardproduct');
+// });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
 Route::middleware(['auth','role:admin'])->group(function () {
+    Route::get('/transaksi/status/{id}', [TransaksiController::class,'status'])->name('transaksi.status');
+
     Route::get('/product', [ProductController::class,'index'])->name('product.index');
     Route::get('/product/tambah', [ProductController::class,'create'])->name('product.tambah');
     Route::get('/product/edit/{id}', [ProductController::class,'edit'])->name('product.edit');
@@ -35,9 +46,15 @@ Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/kategori/delete/{id}', [KategoriController::class, 'destroy'])->name('kategori.delete');
 });
 
+Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::get('/order/{id}',[TransaksiController::class,'orderID'])->name('order');
+    
+    Route::post('/transaksi/tambah',[TransaksiController::class,'store'])->name('transaksi.tambah');
+    Route::get('/upload/{id}',[TransaksiController::class,'uploadBukti'])->name('upload');
+    Route::post('/uploadBukti/{id}',[TransaksiController::class,'upload'])->name('upload.bukti');
+});
 
+Route::middleware(['auth', 'role:user|admin'])->group(function () {
+    Route::get('/transaksi',[TransaksiController::class,'listTransaksi'])->name('transaksi');
+});
 
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

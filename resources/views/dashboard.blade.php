@@ -6,7 +6,6 @@
       <div class="small-box bg-info">
         <div class="inner">
            <!--  cara menambahkan barang di web -->
-          
           <h3>{{ $barang->count()}}</h3>
 
           <p>Jumlah Produk</p>

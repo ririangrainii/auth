@@ -62,6 +62,18 @@
       </a>
     </li>
     @endhasrole
+    @hasanyrole('admin|user')
+    <li class="nav-item">
+      <a href="{{ url('/transaksi') }}" class="nav-link">
+        <i class="nav-icon fas fa-chart-pie"></i>
+        <p>
+          
+          transaksi
+          
+        </p>
+      </a>
+    </li>
+    @endhasanyrole
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-chart-pie"></i>

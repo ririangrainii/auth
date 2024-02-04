@@ -24,8 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        $jenis=DB::table('tb_kategori')->get();
+        
         //buat variabel untuk count barang
         $barang=DB::table('tb_product')->get();
-        return view('dashboard',compact('barang'));
+        return view('dashboard',compact('barang', 'jenis'));
     }
 }
